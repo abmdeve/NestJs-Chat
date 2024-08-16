@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from 'src/app.service';
 import { UserService } from './user.service';
 
@@ -10,5 +10,10 @@ export class UserController {
     // @Get('settings')
     getUsers(){
         return this.userService.getUsers();
+    }
+
+    @Get('/one/:userId')
+    getUser(@Param('userId') userId: string){
+        return this.userService.getUser({userId});
     }
 }
