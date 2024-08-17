@@ -23,4 +23,30 @@ model User {
   password String
   isResettingPassword Boolean @default(false)
   resetPasswordToken String? @unique
+
+  conversations Conversation[]
+  sentMessages ChatMessage[]
+
+}
+
+model Conversation {
+  id String @id @default(cuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+  users User[]
+  messages ChatMessage[]
+}
+
+model ChatMessage {
+  id String @id @default(cuid())
+  content String
+  createAt DateTime @default(now())
+  sender User @relation(fields: [senderId], references: [id])
+  senderId String     
+  conversation Conversation @relation(fields: [chatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  chatId String
+  @@index([chatId])
+  @@index([senderId])
+
+
 }
