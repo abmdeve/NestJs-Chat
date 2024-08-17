@@ -6,6 +6,7 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   WebSocketServer,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
@@ -36,7 +37,8 @@ export class AppGateway
   }
 
   @SubscribeMessage('test')
-  sendMessage(@MessageBody() data) {
+  sendMessage(@MessageBody() data, @ConnectedSocket() socket: Socket) {
     console.log('DATA SOCKET.IO', data);
+    socket.emit('chat', "Salut j'ai bien reçu ton message!");
   }
 }
